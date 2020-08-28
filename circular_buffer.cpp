@@ -18,9 +18,10 @@ CircularBuffer<T>::CircularBuffer(size_t size){
     // Zero at this point because no element in the buffer.
     numElements = 0;
     this->size = size;
-    this->start = 0;
-    this->end = 0;
-    this->elements = 0;
+    this->head = 0;
+    this->tail = 0;
+    this->elements_index = 0;
+    this->full = false;
 }
 // This is the destructor
 template <typename T>
@@ -29,11 +30,41 @@ CircularBuffer<T>::~CircularBuffer(){
 }
 // Add element to our structure
 template <typename T>
-int CircularBuffer<T>:: Push(T element){
+int CircularBuffer<T>:: Write(T element){
+    if(isFull()){
+        // Do reset or what, I dont know.
+    }
+    else{
+        *buf[head] = element;
+        head=(head+1) % size;
+        if(head == tail){
+            full = true;
+        }
+    }
+
+}
+template <typename T>
+T CircularBuffer<T>::Read(){
+    if(isEmpty()){
+        // No element to read.
+    }
+    else{
+        read = *buf[tail];
+        tail=(tail+1) % size;
+        full = false;
+    }
 
 }
 // This function is for checking whether the buffer is full or not.
 template <typename T>
 bool CircularBuffer<T>::isFull(){
-    
+    return full;
+}
+template <typename T>
+bool CircularBuffer<T>::isEmpty(){
+    bool temp = false;
+    if(head == tail)&&(full != true){
+        temp = true;
+    }
+    return temp;
 }

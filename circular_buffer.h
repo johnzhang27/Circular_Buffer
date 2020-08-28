@@ -1,10 +1,7 @@
 #ifndef _CIRCULARBUFFER_H_
 #define _CIRCULARBUFFER_H_
 
-#include <unordered_map>
-#include <unordered_set>
 #include <vector>
-#include <set>
 #include <iostream>
 #include <algorithm>
 #include <fstream>
@@ -31,6 +28,10 @@ template<typename T> class CircularBuffer
         // directly allocate space from memory(not sure).
         /* unique_ptr<T[]> buf_; */
         unsigned int numElements;
+        size_t size;
+        unsigned int head, tail, elements_index;
+        bool full;
+        T read;
     public:
         // Constructor
         CircularBuffer(size_t size);
@@ -41,14 +42,14 @@ template<typename T> class CircularBuffer
         // Check if the circualr buffer is empty or not.
         bool isEmpty();
         // "Push to stack", add elements to the buffer.
-        int Push(T element);
+        int Write(T element);
         // Cout how many elements are in the circular buffer currently.
         int numElements();
         // "Pop out elements", remove the 1st added element from the circular buffer.
-        T Pop();
+        T Read();
         // This will return the pointer of nth element. If empty then NULL.
         void Peek(int)
-        // Check the total capacity of the circular buffer.
+        // Check the total capacity of the circular buffer or the remaining capacity.
         int Capacity();
 
 };

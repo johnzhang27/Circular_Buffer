@@ -14,13 +14,13 @@ CircularBuffer<T>::CircularBuffer(size_t size){
 	    //empty constructor
     }
     */
-    *buf = new vector<T>[size];
+    *buf = vector<T>[size];
     // Zero at this point because no element in the buffer.
     numElements = 0;
     this->size = size;
     this->head = 0;
     this->tail = 0;
-    this->elements_index = 0;
+    this->num_Elements = 0;
     this->full = false;
 }
 // This is the destructor
@@ -67,4 +67,53 @@ bool CircularBuffer<T>::isEmpty(){
         temp = true;
     }
     return temp;
+}
+template <typename T>
+void CircularBuffer<T>::Reset(){
+    head = tail;
+    full = false;
+}
+
+template <typename T>
+size_t CircularBuffer<T>::Capacity(){
+    return size;
+}
+
+template <typename T>
+size_t CircularBuffer<T>::RemainingSize(){
+    size_t RemSize = size;
+    if(!full){
+        if(head >= tail){
+            RemSize = head - tail;
+        }
+        else{
+            RemSize = size + head - tail;
+        }
+    }
+    return RemSize;
+}
+template <typename T>
+int CircularBuffer<T>::numElements(){
+    int num = static_cast<int>(size);
+    if(!full){
+        if(head >= tail){
+            num = num - (head - tail);
+        }
+        else{
+            num = num - (num + head - tail);
+        }
+    }
+    num_Elements = num;
+    return num;
+}
+template <typename T>
+void CircularBuffer<T>::Peek(int nth_element){
+    void *ret = NULL;
+    if(isEmpty() || num > num_Elements - 1){
+        ret = NULL;
+    }
+    else{
+        ret = ((head + num) % size) * size;
+    }
+    return ret;
 }

@@ -27,9 +27,8 @@ template<typename T> class CircularBuffer
         // This is a smart pointer function I found online, it can 
         // directly allocate space from memory(not sure).
         /* unique_ptr<T[]> buf_; */
-        unsigned int numElements;
         size_t size;
-        unsigned int head, tail, elements_index;
+        unsigned int head, tail, num_Elements;
         bool full;
         T read;
     public:
@@ -48,9 +47,13 @@ template<typename T> class CircularBuffer
         // "Pop out elements", remove the 1st added element from the circular buffer.
         T Read();
         // This will return the pointer of nth element. If empty then NULL.
-        void Peek(int)
+        void Peek(int nth_element);
         // Check the total capacity of the circular buffer or the remaining capacity.
-        int Capacity();
+        size_t Capacity();
+        // Check the available size of the circular buffer.
+        size_t RemainingSize();
+        // Reset the buffer to empty state.
+        void Reset();
 
 };
 #endif

@@ -2,7 +2,7 @@
 
 // This is the constructor
 template <typename T>
-CircularBuffer<T>::CircularBuffer(size_t size){
+CircularBuffer<T>::CircularBuffer(unsigned int size){
     assert(size > 0);
     // I used a vector structure to simulate the buffer structure.
     // However if this is not how we want to store data, we could do:
@@ -14,19 +14,18 @@ CircularBuffer<T>::CircularBuffer(size_t size){
 	    //empty constructor
     }
     */
-    *buf = vector<T>[size];
+    buf = new vector<T>[size];
     // Zero at this point because no element in the buffer.
-    numElements = 0;
     this->size = size;
     this->head = 0;
     this->tail = 0;
     this->num_Elements = 0;
     this->full = false;
 }
-// This is the destructor
+// This is the destructor.
 template <typename T>
 CircularBuffer<T>::~CircularBuffer(){
-    delete[] *buf;
+    delete[] buf;
 }
 // Add element to our structure
 template <typename T>
@@ -35,7 +34,7 @@ int CircularBuffer<T>:: Write(T element){
         // Do reset or what, I dont know.
     }
     else{
-        *buf[head] = element;
+        buf[head] = element;
         head=(head+1) % size;
         if(head == tail){
             full = true;
@@ -49,7 +48,7 @@ T CircularBuffer<T>::Read(){
         // No element to read.
     }
     else{
-        read = *buf[tail];
+        read = buf[tail];
         tail=(tail+1) % size;
         full = false;
     }
@@ -63,7 +62,7 @@ bool CircularBuffer<T>::isFull(){
 template <typename T>
 bool CircularBuffer<T>::isEmpty(){
     bool temp = false;
-    if(head == tail)&&(full != true){
+    if((head == tail)&&(full != true)){
         temp = true;
     }
     return temp;
@@ -106,14 +105,14 @@ int CircularBuffer<T>::numElements(){
     num_Elements = num;
     return num;
 }
-template <typename T>
-void CircularBuffer<T>::Peek(int nth_element){
-    void *ret = NULL;
-    if(isEmpty() || num > num_Elements - 1){
+/*template <typename T>
+int CircularBuffer<T>::Peek(int nth_element){
+    int *ret = NULL;
+    if(isEmpty() || (nth_element > num_Elements-1)){
         ret = NULL;
     }
     else{
-        ret = ((head + num) % size) * size;
+        ret = ((head + nth_element) % size) * size;
     }
     return ret;
-}
+}*/

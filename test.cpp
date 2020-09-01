@@ -8,6 +8,7 @@ int main(){
     int num;
     CircularBuffer<int> buffer(6);
     while(true){
+        int num;
         cin >> num;
         buffer.Write(num);
         cout << buffer.Read() << endl;

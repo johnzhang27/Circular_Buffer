@@ -95,6 +95,7 @@ int CircularBuffer<T>:: Write(T element){
     else{
         (*buf)[head] = element;
         head=(head+1) % size;
+        cout << head << endl;
         if(head == tail){
             full = true;
         }
